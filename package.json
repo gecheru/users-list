@@ -14,7 +14,8 @@
     "prettier:format": "prettier --write src/",
     "prettier:check": "prettier --check src/",
     "stylelint:check": "stylelint \"src/**/*.{css,vue}\"",
-    "stylelint:fix": "stylelint \"src/**/*.{css,vue}\" --fix"
+    "stylelint:fix": "stylelint \"src/**/*.{css,vue}\" --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "pinia": "^2.1.7",
@@ -32,6 +33,7 @@
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
+    "husky": "^9.1.4",
     "jsdom": "^24.1.0",
     "npm-run-all2": "^6.2.0",
     "postcss-html": "^1.7.0",
