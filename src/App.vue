@@ -1,20 +1,25 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, onMounted } from 'vue';
+import { BASE_URL } from '@/constants/baseUrl';
+
+const users = ref([]);
+onMounted(() => {
+  fetch(`${BASE_URL}userList.json`, {
+    headers: { 'Content-type': 'application/json' }
+  })
+    .then((res) => res.json())
+    .then((data) => (users.value = data));
+});
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{ user }}
+      </li>
+    </ul>
   </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
 <style scoped>
