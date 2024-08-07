@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { BASE_URL } from '@/constants/baseUrl';
 
-const users = ref([]);
+const users = ref<{ [key: string]: unknown; id: string }[]>([]);
 onMounted(() => {
   fetch(`${BASE_URL}userList.json`, {
     headers: { 'Content-type': 'application/json' }
