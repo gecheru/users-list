@@ -1,5 +1,8 @@
 <template>
-  <VDialog v-model="isOpen" :persistent="isBusy">
+  <VDialog
+    v-model="isOpen"
+    :persistent="isBusy"
+  >
     <template v-slot:activator="{ props: activatorProps }">
       <VBtn v-bind="activatorProps"> Add new user </VBtn>
     </template>
@@ -10,15 +13,38 @@
       </VCardItem>
       <VDivider />
       <div class="pt-6 pb-0 px-8">
-        <VForm ref="form" @submit.prevent="handleSubmit" :id="formId">
-          <VTextField v-model="newUserModel.firstName" label="Name" :rules="[required]" />
-          <VTextField v-model="newUserModel.secondName" label="Last name" :rules="[required]" />
-          <VTextField v-model="newUserModel.email" label="Email" :rules="[required, email]" />
+        <VForm
+          ref="form"
+          @submit.prevent="handleSubmit"
+          :id="formId"
+        >
+          <VTextField
+            v-model="newUserModel.firstName"
+            label="Name"
+            :rules="[required]"
+          />
+          <VTextField
+            v-model="newUserModel.secondName"
+            label="Last name"
+            :rules="[required]"
+          />
+          <VTextField
+            v-model="newUserModel.email"
+            label="Email"
+            :rules="[required, email]"
+          />
         </VForm>
       </div>
       <VCardActions class="pt-4 pb-6 px-8">
         <VBtn @click="closeDialog"> Close </VBtn>
-        <VBtn :loading="isBusy" variant="flat" :form="formId" type="submit"> Submit </VBtn>
+        <VBtn
+          :loading="isBusy"
+          variant="flat"
+          :form="formId"
+          type="submit"
+        >
+          Submit
+        </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>

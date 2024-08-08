@@ -1,7 +1,10 @@
 <template>
   <div>
     <ul>
-      <li v-for="user in usersStore.users" :key="user.id">
+      <li
+        v-for="user in usersStore.users"
+        :key="user.id"
+      >
         {{ user }}
       </li>
     </ul>
