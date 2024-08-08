@@ -4,6 +4,8 @@
       :items="usersStore.users"
       :headers="headers"
       :loading="loading"
+      :search="search"
+      :filter-keys="['firstName', 'lastName']"
     >
       <template v-slot:loading>
         <VSkeletonLoader type="table-row@10"></VSkeletonLoader>
@@ -14,8 +16,22 @@
           fluid
           class="border-b-thin"
         >
-          <VRow no-gutters>
-            <VCol></VCol>
+          <VRow
+            no-gutters
+            justify="space-between"
+            align="center"
+          >
+            <VCol cols="4">
+              <VTextField
+                v-model="search"
+                prepend-inner-icon="mdi-magnify"
+                placeholder="Search by any name"
+                variant="outlined"
+                hide-details
+                single-line
+                density="compact"
+              />
+            </VCol>
             <VCol cols="auto">
               <UserCreate />
             </VCol>
@@ -51,6 +67,7 @@ import type { User } from '@/types/User/User';
 
 const usersStore = useUsersStore();
 const loading = ref(false);
+const search = ref('');
 const headers = ref<TableHeaders>([
   {
     key: 'firstName',
@@ -66,8 +83,7 @@ const headers = ref<TableHeaders>([
   },
   {
     key: 'lastVisitedAt',
-    title: 'Last visited',
-    sortable: true
+    title: 'Last visited'
   },
   {
     key: 'actions',
