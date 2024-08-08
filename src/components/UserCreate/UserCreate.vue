@@ -4,7 +4,13 @@
     :persistent="isBusy"
   >
     <template v-slot:activator="{ props: activatorProps }">
-      <VBtn v-bind="activatorProps"> Add new user </VBtn>
+      <VBtn
+        v-bind="activatorProps"
+        variant="flat"
+        color="primary"
+      >
+        Add new user
+      </VBtn>
     </template>
 
     <VCard :loading="isBusy">
@@ -24,7 +30,7 @@
             :rules="[required]"
           />
           <VTextField
-            v-model="newUserModel.secondName"
+            v-model="newUserModel.lastName"
             label="Last name"
             :rules="[required]"
           />
@@ -64,7 +70,7 @@ const isBusy = ref(false);
 const form = ref<VForm | null>(null);
 const newUserModel = reactive<UserCreateRequest>({
   firstName: '',
-  secondName: '',
+  lastName: '',
   email: ''
 });
 const closeDialog = () => {

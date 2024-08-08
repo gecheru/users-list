@@ -1,7 +1,7 @@
 export type User = {
   id: number;
   firstName: string;
-  secondName: string;
+  lastName: string;
   email: string;
   lastVisitedAt: number;
 };

@@ -1,1 +1,1 @@
-export const BASE_URL = `${window.location}userList.json`;
+export const BASE_URL = `${window.location.origin}/userList.json`;
