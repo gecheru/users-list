@@ -1,70 +1,58 @@
 <template>
-  <VCard>
-    <VDataTable
-      :items="usersStore.users"
-      :headers="headers"
-      :loading="loading"
-      :search="search"
-      :filter-keys="['firstName', 'lastName']"
-      :mobile="null"
-      mobile-breakpoint="sm"
-    >
-      <template v-slot:loading>
-        <VSkeletonLoader type="table-row@10"></VSkeletonLoader>
-      </template>
-
-      <template v-slot:top>
-        <VContainer
-          fluid
-          class="border-b-thin"
+  <CustomTable
+    :headers="headers"
+    :items="usersStore.users"
+    :loading="loading"
+  >
+    <template v-slot:top>
+      <VContainer
+        fluid
+        class="border-b-thin"
+      >
+        <VRow
+          no-gutters
+          justify="space-between"
+          align="center"
         >
-          <VRow
-            no-gutters
-            justify="space-between"
-            align="center"
-          >
-            <VCol cols="4">
-              <CustomSearchField
-                v-model="search"
-                placeholder="Search by any name"
-              />
-            </VCol>
-            <VCol cols="auto">
-              <UserCreate />
-            </VCol>
-          </VRow>
-        </VContainer>
-      </template>
+          <VCol cols="4">
+            <CustomSearchField
+              v-model="search"
+              placeholder="Search by any name"
+            />
+          </VCol>
+          <VCol cols="auto">
+            <UserEdit />
+          </VCol>
+        </VRow>
+      </VContainer>
+    </template>
 
-      <template v-slot:item.lastVisitedAt="{ item }">
-        {{ useFormatDate(item.lastVisitedAt) }}
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <CustomButton
-          size="small"
-          variant="plain"
-          icon="mdi-pencil"
-          @click="editUser(item)"
-        />
-        <CustomButton
-          size="small"
-          variant="plain"
-          icon="mdi-delete"
-          color="error"
-          @click="deleteUser(item)"
-        />
-      </template>
-    </VDataTable>
-  </VCard>
+    <template v-slot:item.actions="{ item }">
+      <CustomButton
+        size="small"
+        variant="plain"
+        icon="mdi-pencil"
+        @click="editUser(item)"
+      />
+      <CustomButton
+        size="small"
+        variant="plain"
+        icon="mdi-delete"
+        color="error"
+        @click="deleteUser(item)"
+      />
+    </template>
+  </CustomTable>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useUsersStore } from '@/stores/users';
-import UserCreate from '@/components/UserCreate/UserCreate.vue';
+import UserEdit from '@/components/UserEdit/UserEdit.vue';
 import type { TableHeaders } from '@/types/Table/TableHeaders';
 import type { User } from '@/types/User/User';
-import { useFormatDate } from '@/shared/composables/formatDate';
+
+import CustomTable from '@/shared/ui/CustomTable/CustomTable.vue';
 import CustomSearchField from '@/shared/ui/CustomSearchField/CustomSearchField.vue';
 import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
 
