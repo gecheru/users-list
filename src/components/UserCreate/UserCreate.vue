@@ -21,17 +21,17 @@
           <CustomTextField
             v-model="newUserModel.firstName"
             label="Name"
-            :rules="[required]"
+            :rules="[required, maxLength(10)]"
           />
           <CustomTextField
             v-model="newUserModel.lastName"
             label="Last name"
-            :rules="[required]"
+            :rules="[required, maxLength(10)]"
           />
           <CustomTextField
             v-model="newUserModel.email"
             label="Email"
-            :rules="[required, email]"
+            :rules="[required, email, maxLength(20)]"
           />
         </VForm>
       </div>
@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useUsersStore } from '@/stores/users';
-import { required, email } from '@/shared/validation';
+import { required, email, maxLength } from '@/shared/validation';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
 import type { VForm } from 'vuetify/components/VForm';
 import CustomTextField from '@/shared/ui/CustomTextField/CustomTextField.vue';
