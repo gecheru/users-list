@@ -4,13 +4,7 @@
     :persistent="isBusy"
   >
     <template v-slot:activator="{ props: activatorProps }">
-      <VBtn
-        v-bind="activatorProps"
-        variant="flat"
-        color="primary"
-      >
-        Add new user
-      </VBtn>
+      <CustomButton v-bind="activatorProps"> Add new user </CustomButton>
     </template>
 
     <VCard :loading="isBusy">
@@ -24,17 +18,17 @@
           @submit.prevent="handleSubmit"
           :id="formId"
         >
-          <VTextField
+          <CustomTextField
             v-model="newUserModel.firstName"
             label="Name"
             :rules="[required]"
           />
-          <VTextField
+          <CustomTextField
             v-model="newUserModel.lastName"
             label="Last name"
             :rules="[required]"
           />
-          <VTextField
+          <CustomTextField
             v-model="newUserModel.email"
             label="Email"
             :rules="[required, email]"
@@ -42,15 +36,19 @@
         </VForm>
       </div>
       <VCardActions class="pt-4 pb-6 px-8">
-        <VBtn @click="closeDialog"> Close </VBtn>
-        <VBtn
+        <CustomButton
+          @click="closeDialog"
+          variant="plain"
+        >
+          Close
+        </CustomButton>
+        <CustomButton
           :loading="isBusy"
-          variant="flat"
           :form="formId"
           type="submit"
         >
           Submit
-        </VBtn>
+        </CustomButton>
       </VCardActions>
     </VCard>
   </VDialog>
@@ -62,6 +60,8 @@ import { useUsersStore } from '@/stores/users';
 import { required, email } from '@/shared/validation';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
 import type { VForm } from 'vuetify/components/VForm';
+import CustomTextField from '@/shared/ui/CustomTextField/CustomTextField.vue';
+import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
 
 const formId = 'user-form';
 const usersStore = useUsersStore();

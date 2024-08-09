@@ -40,13 +40,13 @@
         {{ useFormatDate(item.lastVisitedAt) }}
       </template>
       <template v-slot:item.actions="{ item }">
-        <VBtn
+        <CustomButton
           size="small"
           variant="plain"
           icon="mdi-pencil"
           @click="editUser(item)"
         />
-        <VBtn
+        <CustomButton
           size="small"
           variant="plain"
           icon="mdi-delete"
@@ -65,7 +65,8 @@ import UserCreate from '@/components/UserCreate/UserCreate.vue';
 import type { TableHeaders } from '@/types/Table/TableHeaders';
 import type { User } from '@/types/User/User';
 import { useFormatDate } from '@/shared/composables/formatDate';
-import CustomSearchField from '../CustomSearchField/CustomSearchField.vue';
+import CustomSearchField from '@/shared/ui/CustomSearchField/CustomSearchField.vue';
+import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
 
 const usersStore = useUsersStore();
 const loading = ref(false);

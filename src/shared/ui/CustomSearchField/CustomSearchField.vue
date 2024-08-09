@@ -3,16 +3,14 @@
 </template>
 
 <script lang="ts" setup>
+import type { TextFieldProps } from '@/types/TextField/TextFieldProps';
 import { computed } from 'vue';
-import type { VTextField as TextFieldType } from 'vuetify/components/VTextField';
 
-type TextFieldProps = TextFieldType['$props'];
-interface Props extends /* @vue-ignore */ TextFieldProps {}
 type CustomProps = {};
 
-const props = defineProps<CustomProps & Props>();
+const props = defineProps<CustomProps & TextFieldProps>();
 
-const defaultProps: Props = {
+const defaultProps: TextFieldProps = {
   prependInnerIcon: 'mdi-magnify',
   variant: 'outlined',
   hideDetails: true,

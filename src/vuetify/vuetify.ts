@@ -15,17 +15,6 @@ export const vuetify = createVuetify({
   defaults: {
     VDialog: {
       maxWidth: '400px'
-    },
-    VBtn: {
-      variant: 'flat',
-      baseColor: 'primary'
-    },
-    VTextField: {
-      density: 'compact',
-      baseColor: 'primary',
-      bgColor: 'background',
-      variant: 'underlined',
-      color: 'primary'
     }
   }
 });
