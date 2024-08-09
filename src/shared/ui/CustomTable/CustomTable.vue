@@ -1,22 +1,20 @@
 <template>
-  <VCard>
-    <VDataTable v-bind="{ ...$attrs, ...tableProps }">
-      <template v-slot:loading>
-        <VSkeletonLoader type="table-row@10"></VSkeletonLoader>
-      </template>
+  <VDataTable v-bind="{ ...$attrs, ...tableProps }">
+    <template v-slot:loading>
+      <VSkeletonLoader type="table-row@10"></VSkeletonLoader>
+    </template>
 
-      <template
-        v-for="(_, name) in slots"
-        v-slot:[name]="scope"
-      >
-        <!-- @vue-ignore -->
-        <slot
-          :name="name"
-          v-bind="scope"
-        />
-      </template>
-    </VDataTable>
-  </VCard>
+    <template
+      v-for="(_, name) in slots"
+      v-slot:[name]="scope"
+    >
+      <!-- @vue-ignore -->
+      <slot
+        :name="name"
+        v-bind="scope"
+      />
+    </template>
+  </VDataTable>
 </template>
 
 <script setup lang="ts">

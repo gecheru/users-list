@@ -1,23 +1,26 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { User } from '@/types/User/User';
-import { BASE_URL } from '@/shared/constants/baseUrl';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
+import { BASE_FILE_NAME } from '@/shared/constants/baseFileName';
 
 export const useUsersStore = defineStore('users', () => {
   const users = ref<User[]>([]);
 
-  const getUsers = () => {
-    fetch(BASE_URL)
-      .then((res) => res.json())
-      .then((data) => (users.value = data))
-      .catch(() => (users.value = []));
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(`/${BASE_FILE_NAME}`);
+      const data = await response.json();
+      users.value = data;
+    } catch (_) {
+      users.value = [];
+    }
   };
 
-  const addUser = async (userCreateRequestModel: UserCreateRequest) => {
+  const addUser = async (userCreateRequest: UserCreateRequest) => {
     const newUserId = users.value.length + 1;
     const newUser: User = {
-      ...userCreateRequestModel,
+      ...userCreateRequest,
       id: newUserId,
       lastVisitedAt: Date.now()
     };
@@ -25,17 +28,13 @@ export const useUsersStore = defineStore('users', () => {
     users.value = [...users.value, newUser];
   };
 
-  const editUser = (user: User) => {
-    fetch(BASE_URL)
-      .then((res) => res.json())
-      .then((data) => (users.value = data));
+  const editUser = (updatedUser: User) => {
+    users.value = users.value.map((user) => (user.id === updatedUser.id ? updatedUser : user));
   };
 
-  const deleteUser = (userId: number) => {
-    fetch(BASE_URL)
-      .then((res) => res.json())
-      .then((data) => (users.value = data));
+  const deleteUser = (user: User) => {
+    users.value = users.value.filter((us) => us.id !== user.id);
   };
 
-  return { users, getUsers, addUser, editUser, deleteUser };
+  return { users, fetchUsers, addUser, editUser, deleteUser };
 });
