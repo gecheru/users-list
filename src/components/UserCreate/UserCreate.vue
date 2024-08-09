@@ -61,7 +61,7 @@ import { ref, reactive } from 'vue';
 import { useUsersStore } from '@/stores/users';
 import { required, email } from '@/shared/validation';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
-import type { VForm } from 'vuetify/components';
+import type { VForm } from 'vuetify/components/VForm';
 
 const formId = 'user-form';
 const usersStore = useUsersStore();
