@@ -29,7 +29,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useUsersStore } from '@/stores/users';
-import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
 import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
 import type { User } from '@/types/User/User';
 

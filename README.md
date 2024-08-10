@@ -1,45 +1,25 @@
-# users-list
+### Users list
 
-This template should help get you started developing with Vue 3 in Vite.
+Загружает список пользователей из файла userList.json и сохраняет их в сторе.  
+После этого можно просматривать/редактировать/удалять/создавать/фильтровать пользователей до перезагрузки страницы.  
+Перезагрузка страницы сбрасывает прогресс.
 
-## Recommended IDE Setup
+#### Как запустить
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+1. Склонировать себе main ветку
+2. Запустить команду `npm run dev`
 
-## Type Support for `.vue` Imports in TS
+#### Технологии
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Vue3 + Composition API
+- TypeScript
+- Pinia
+- Vuetify
+- Vitest + Vue-test-utils
 
-## Customize configuration
+#### Что есть в проекте
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- настроен линтинг кода (EsLint, Stylelint, Prettier)
+- подключен husky и pre-commit хук
+- написаны тесты на некоторые обертки над Vuetify компонентами (например [CustomButton](https://github.com/gecheru/users-list/blob/main/src/shared/ui/CustomButton/CustomButton.spec.ts))
+- настроены Github Actions на линтинг -> тесты -> билд
