@@ -1,0 +1,14 @@
+<template>
+  <VContainer
+    fluid
+    class="border-b-thin"
+  >
+    <VRow
+      no-gutters
+      justify="space-between"
+      align="center"
+    >
+      <slot></slot>
+    </VRow>
+  </VContainer>
+</template>

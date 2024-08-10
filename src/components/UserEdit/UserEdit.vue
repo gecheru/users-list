@@ -1,15 +1,16 @@
 <template>
   <VDialog
-    v-model="isOpen"
-    :persistent="isBusy"
+    :model-value="isOpen"
+    @update:model-value="updateOpenState"
+    @after-leave="resetForm"
   >
     <template v-slot:activator="{ props: activatorProps }">
       <CustomButton v-bind="activatorProps"> Add new user </CustomButton>
     </template>
 
-    <VCard :loading="isBusy">
+    <VCard>
       <VCardItem class="text-center">
-        <VCardTitle> Add new user </VCardTitle>
+        <VCardTitle>{{ modalTitle }}</VCardTitle>
       </VCardItem>
       <VDivider />
       <div class="pt-6 pb-0 px-8">
@@ -19,17 +20,17 @@
           :id="formId"
         >
           <CustomTextField
-            v-model="newUserModel.firstName"
+            v-model="newUser.firstName"
             label="Name"
             :rules="[required, maxLength(10)]"
           />
           <CustomTextField
-            v-model="newUserModel.lastName"
+            v-model="newUser.lastName"
             label="Last name"
             :rules="[required, maxLength(10)]"
           />
           <CustomTextField
-            v-model="newUserModel.email"
+            v-model="newUser.email"
             label="Email"
             :rules="[required, email, maxLength(20)]"
           />
@@ -37,54 +38,85 @@
       </div>
       <VCardActions class="pt-4 pb-6 px-8">
         <CustomButton
-          @click="closeDialog"
+          @click="closeModal"
           variant="plain"
+          >Close</CustomButton
         >
-          Close
-        </CustomButton>
         <CustomButton
-          :loading="isBusy"
           :form="formId"
           type="submit"
+          :disabled="!isEdited"
+          >Save</CustomButton
         >
-          Submit
-        </CustomButton>
       </VCardActions>
     </VCard>
   </VDialog>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, computed } from 'vue';
 import { useUsersStore } from '@/stores/users';
 import { required, email, maxLength } from '@/shared/validation';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
 import type { VForm } from 'vuetify/components/VForm';
 import CustomTextField from '@/shared/ui/CustomTextField/CustomTextField.vue';
 import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
+import type { User } from '@/types/User/User';
+import { isEqual } from '@/shared/utils/object';
 
 const formId = 'user-form';
-const usersStore = useUsersStore();
 const isOpen = ref(false);
-const isBusy = ref(false);
 const form = ref<VForm | null>(null);
-const newUserModel = reactive<UserCreateRequest>({
-  firstName: '',
-  lastName: '',
-  email: ''
-});
-const closeDialog = () => {
-  isOpen.value = false;
-  form.value!.reset();
-  isBusy.value = false;
+const initialUser = ref<UserCreateRequest | User>({ firstName: '', lastName: '', email: '' });
+const newUser = ref<UserCreateRequest | User>({ ...initialUser.value });
+
+const usersStore = useUsersStore();
+
+const isEditMode = computed(() => isUser(newUser.value));
+const modalTitle = computed(() => (isEditMode.value ? 'Edit user' : 'Add new user'));
+const isEdited = computed(() => !isEqual(initialUser.value, newUser.value));
+
+const updateOpenState = (value: boolean) => {
+  isOpen.value = value;
 };
-const handleSubmit = async () => {
-  isBusy.value = true;
-  const { valid } = await form.value!.validate();
-  if (valid) {
-    await usersStore.addUser(newUserModel);
-    closeDialog();
+
+const openModal = (user?: User) => {
+  if (user) {
+    initialUser.value = { ...user };
+    newUser.value = { ...user };
+  } else {
+    resetForm();
   }
-  isBusy.value = false;
+  updateOpenState(true);
 };
+
+const closeModal = () => {
+  updateOpenState(false);
+};
+
+const resetForm = () => {
+  initialUser.value = { firstName: '', lastName: '', email: '' };
+  newUser.value = { ...initialUser.value };
+};
+
+const handleSubmit = async () => {
+  if (!isEdited.value || !form.value) return;
+
+  const { valid } = await form.value.validate();
+  if (!valid) return;
+
+  if (isEditMode.value && isUser(newUser.value)) {
+    usersStore.editUser({ ...newUser.value });
+  } else {
+    usersStore.addUser({ ...newUser.value });
+  }
+
+  closeModal();
+};
+
+const isUser = (data: User | UserCreateRequest): data is User => {
+  return 'id' in data && 'lastVisitedAt' in data;
+};
+
+defineExpose({ openModal });
 </script>

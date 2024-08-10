@@ -1,40 +1,49 @@
 <template>
   <CustomTable
     :headers="headers"
-    :items="users"
-    :loading="loading"
+    :items="usersStore.users"
+    :loading="usersStore.loading"
     :search="search"
   >
+    <template v-slot:item.lastVisitedAt="{ item }">
+      {{ useFormatDate(item.lastVisitedAt) }}
+    </template>
     <template v-slot:item.actions="{ item }">
       <CustomButton
         size="small"
         variant="plain"
         icon="mdi-pencil"
-        @click="editUser(item)"
+        @click="handleEditClick(item)"
       />
       <CustomButton
         size="small"
         variant="plain"
         icon="mdi-delete"
         color="error"
-        @click="deleteUser(item)"
+        @click="handleDeleteClick(item)"
       />
     </template>
   </CustomTable>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { TableHeaders } from '@/types/Table/TableHeaders';
 import type { User } from '@/types/User/User';
 import CustomTable from '@/shared/ui/CustomTable/CustomTable.vue';
 import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
+import { useUsersStore } from '@/stores/users';
+import { useFormatDate } from '@/shared/composables/formatDate';
 
 defineProps<{
-  users: User[];
-  loading: boolean;
   search: string;
 }>();
+const emit = defineEmits<{
+  edit: [user: User];
+  delete: [user: User];
+}>();
+
+const usersStore = useUsersStore();
 
 const headers = ref<TableHeaders>([
   {
@@ -64,10 +73,15 @@ const headers = ref<TableHeaders>([
     width: '14%'
   }
 ]);
-const editUser = (user: User) => {
-  console.log('edit', user);
+const handleEditClick = (user: User) => {
+  emit('edit', user);
 };
-const deleteUser = (user: User) => {
+const handleDeleteClick = (user: User) => {
   console.log('delete', user);
+  emit('delete', user);
 };
+
+onMounted(() => {
+  usersStore.fetchUsers();
+});
 </script>

@@ -1,47 +1,41 @@
 <template>
   <VContainer class="pt-8">
     <VCard>
-      <VContainer
-        fluid
-        class="border-b-thin"
-      >
-        <VRow
-          no-gutters
-          justify="space-between"
-          align="center"
-        >
-          <VCol cols="4">
-            <CustomSearchField
-              v-model="search"
-              placeholder="Search by any name"
-            />
-          </VCol>
-          <VCol cols="auto">
-            <UserEdit />
-          </VCol>
-        </VRow>
-      </VContainer>
+      <UsersFilter>
+        <VCol cols="4">
+          <CustomSearchField
+            v-model="search"
+            placeholder="Search by any name"
+          />
+        </VCol>
+        <VCol cols="auto">
+          <UserEdit ref="editModal" />
+        </VCol>
+      </UsersFilter>
       <UsersTable
-        :users="usersStore.users"
-        :loading
         :search
+        @edit="handleEdit"
+        @delete="handleDelete"
       />
     </VCard>
   </VContainer>
 </template>
 
 <script setup lang="ts">
-import UsersTable from './components/UsersTable/UsersTable.vue';
-import { useUsersStore } from './stores/users';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
+import UsersTable from '@/components/UsersTable/UsersTable.vue';
+import UsersFilter from '@/components/UsersFilter/UsersFilter.vue';
 import UserEdit from '@/components/UserEdit/UserEdit.vue';
 import CustomSearchField from '@/shared/ui/CustomSearchField/CustomSearchField.vue';
+import type { User } from '@/types/User/User';
 
-const usersStore = useUsersStore();
 const search = ref('');
-const loading = ref(false);
+const editModal = ref<InstanceType<typeof UserEdit> | null>(null);
 
-onMounted(() => {
-  usersStore.fetchUsers();
-});
+const handleEdit = (user: User) => {
+  editModal.value?.openModal(user);
+};
+const handleDelete = (user: User) => {
+  console.log('handle', user);
+};
 </script>
