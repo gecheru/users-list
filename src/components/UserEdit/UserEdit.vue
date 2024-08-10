@@ -58,7 +58,7 @@ import { ref, computed } from 'vue';
 import { useUsersStore } from '@/stores/users';
 import { required, email, maxLength } from '@/shared/validation';
 import type { UserCreateRequest } from '@/types/User/UserCreateRequest';
-import type { VForm } from 'vuetify/components/VForm';
+import { VForm } from 'vuetify/components/VForm';
 import CustomTextField from '@/shared/ui/CustomTextField/CustomTextField.vue';
 import CustomButton from '@/shared/ui/CustomButton/CustomButton.vue';
 import type { User } from '@/types/User/User';
@@ -66,7 +66,7 @@ import { isEqual } from '@/shared/utils/object';
 
 const formId = 'user-form';
 const isOpen = ref(false);
-const form = ref<VForm | null>(null);
+const form = ref<InstanceType<typeof VForm> | null>(null);
 const initialUser = ref<UserCreateRequest | User>({ firstName: '', lastName: '', email: '' });
 const newUser = ref<UserCreateRequest | User>({ ...initialUser.value });
 

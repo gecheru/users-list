@@ -73,11 +73,11 @@ const headers = ref<TableHeaders>([
     width: '14%'
   }
 ]);
+
 const handleEditClick = (user: User) => {
   emit('edit', user);
 };
 const handleDeleteClick = (user: User) => {
-  console.log('delete', user);
   emit('delete', user);
 };
 

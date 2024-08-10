@@ -23,7 +23,7 @@ export const useUsersStore = defineStore('users', () => {
   };
 
   const addUser = (userCreateRequest: UserCreateRequest) => {
-    const newUserId = users.value.length + 1;
+    const newUserId = users.value[users.value.length - 1].id + 1 || 1;
     const newUser: User = {
       ...userCreateRequest,
       id: newUserId,

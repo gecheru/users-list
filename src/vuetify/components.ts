@@ -15,7 +15,8 @@ import {
   VForm,
   VTextField,
   VSkeletonLoader,
-  VIcon
+  VIcon,
+  VCardText
 } from 'vuetify/components';
 
 export const components: VuetifyOptions['components'] = {
@@ -34,5 +35,6 @@ export const components: VuetifyOptions['components'] = {
   VForm,
   VTextField,
   VSkeletonLoader,
-  VIcon
+  VIcon,
+  VCardText
 };
